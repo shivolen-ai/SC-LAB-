@@ -1,0 +1,21 @@
+import numpy as np
+
+dist = np.array([[0,10,17,10],[10,0,10,10],[17,10,0,10],[10,10,10,0]])
+n = len(dist)
+pher = np.ones((n, n))
+best, best_cost = None, float('inf')
+
+def cost(p):
+    return sum(dist[p[i], p[(i+1)%n]] for i in range(n))
+
+for _ in range(5):  # iterations
+    sols = [np.random.permutation(n) for _ in range(2)]  # ants
+    for p in sols:
+        c = cost(p)
+        pher *= 0.9  # evaporate
+        for i in range(n):
+            pher[p[i], p[(i+1)%n]] += 5 / c
+        if c < best_cost:
+            best, best_cost = p, c
+
+print("Best:", best, "Cost:", best_cost)

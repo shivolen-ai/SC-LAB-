@@ -1,0 +1,20 @@
+import random
+
+def fitness(x):
+    return x**2
+
+def crossover(p1, p2):
+    return (p1 + p2) / 2
+
+def mutate(x):
+    return x + random.uniform(-1, 1)
+
+population = [random.uniform(-10, 10) for _ in range(6)]
+
+for generation in range(10):
+    population.sort(key=fitness)
+    parents = population[:2]
+    children = [mutate(crossover(parents[0], parents[1])) for _ in range(4)]
+    population = parents + children
+
+print("Best solution:", min(population, key=fitness))

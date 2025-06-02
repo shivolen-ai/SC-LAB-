@@ -1,0 +1,26 @@
+from concurrent.futures import ThreadPoolExecutor
+import numpy as np
+def merge(left, right):
+    r=[]
+    i=0;j=0;
+    while i<len(left) and j<len(right):
+        if left[i]<right[j]:
+            r.append(left[i])
+            i+=1
+        else:
+            r.append(right[j])
+            j+=1
+    r.extend(left[i:])
+    r.extend(right[j:])
+    return r
+def mergesort(a):
+    if len(a)<=1:
+        return a
+    m=len(a)//2
+    with ThreadPoolExecutor() as executor:
+        leftsort=executor.submit(mergesort, a[:m]).result()
+        rightsort=executor.submit(mergesort, a[m:]).result()
+    return merge(leftsort,rightsort)
+arr = np.random.randint(low=10, high=1000, size=5000)
+sorteda=mergesort(arr)
+print(sorteda)

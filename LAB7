@@ -1,0 +1,27 @@
+def update_D(c_values, x_values, X_t):
+  D = []
+  for c, x in zip(c_values, x_values):
+    D.append(c*x - X_t)
+  return D
+
+def update_X(x_values, a_values, d_values):
+  X = []
+  for x, a, d in zip(x_values, a_values, d_values):
+    X.append(x - a*d)
+  return X
+
+def update_position(X):
+  return abs(sum(X))/3
+
+c_values = [2, 4, 6]
+a_values = [9, 6, 3]
+x_values = [5, 11, 15]
+X_t = 1
+
+d_values = update_D(c_values, x_values, X_t)
+x_values = update_X(x_values, a_values, d_values)
+new_pos = update_position(x_values)
+
+print(f'Updated D values: {d_values}')
+print(f'Updated X values: {x_values}')
+print(f'Updated Position: {new_pos:.2f}')

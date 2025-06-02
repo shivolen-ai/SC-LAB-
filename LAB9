@@ -1,0 +1,16 @@
+import numpy as np
+X = np.array([[1, 1], [1, -1], [-1, 1], [-1, -1]])
+Y = np.array([1, -1, -1, -1])
+w = np.zeros(2)
+for i in range(len(X)):
+    w += X[i] * Y[i]
+print("Weights (Hebb’s rule):", w)
+
+w = np.zeros(2)
+lr = 0.1
+for epoch in range(10):
+    for i in range(len(X)):
+        y_pred = np.sign(np.dot(X[i], w))
+        error = Y[i] - y_pred
+        w += lr * error * X[i]
+print("Weights (Delta rule):", w)

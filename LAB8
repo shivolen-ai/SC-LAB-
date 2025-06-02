@@ -1,0 +1,24 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['species'] = iris.target
+
+df['species'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+print("Crisp Partition Counts:")
+print(df['species'].value_counts())
+
+plt.figure(figsize=(8, 5))
+colors = {'setosa': 'red', 'versicolor': 'blue', 'virginica': 'green'}
+for species, group in df.groupby('species'):
+    plt.scatter(group['sepal length (cm)'], group['sepal width (cm)'],
+                label=species, color=colors[species])
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Sepal Width (cm)')
+plt.title('Crisp Partitions of Iris Dataset')
+plt.legend()
+plt.grid(True)
+plt.show()
